@@ -1,0 +1,105 @@
+<!-- Base HTML ->
+{% load staticfiles %}
+
+<html>
+    <head>
+        <title>{% block head_title %}Welcome to my blog{% endblock %}</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "css/slick.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "css/vegas.min.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "css/magnific-popup.css" %}">
+
+        <!-- FONTS -->
+        <link rel="stylesheet" type="text/css" href="{% static "css/entypo.css" %}">
+        <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Dosis:300,400,700,800' rel='stylesheet' type='text/css'>
+
+    </head>
+    <body>
+    	<div class="container">
+    		<div class="bigtitle" align="center">
+    		   <h1>{% block title %}Welcome to my block{% endblock %}</h1>
+        	</div>
+        </div>
+       	 	{% block content %}
+
+        	{% endblock %}
+    </body>
+    {% block selective_js %}
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/contact.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/comingsoon.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/vendor/jquery-1.11.3.min.js.js"></script>
+
+
+    {% endblock selective_js %}
+    
+</html>
+
+<!-- Index HTML -->
+{% extends 'base.html' %}
+{% block title %}Welcome to my blog{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <h2>Categories</h2>
+    {% if categories %}
+        <ul>
+        {% for category in categories %}
+            <li><a href="{{ category.get_absolute_url }}">{{ category.title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no posts.</p>
+    {% endif %}
+
+    <h2>Posts</h2>
+    {% if posts %}
+        <ul>
+        {% for post in posts %}
+            <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no posts.</p>
+    {% endif %}
+    </div>
+
+{% endblock %}
+
+<!-- View Category HTML -->
+{% extends 'base.html' %} 
+{% block head_title %}Viewing category {{ category.title }}{% endblock %}
+{% block title %}{{ category.title }}{% endblock %}
+
+<div class="container">
+{% block content %}
+    {% if posts %}
+        <ul>
+        {% for post in posts %}
+            <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no posts.</p>
+    {% endif %}
+{% endblock %}
+</div>
+
+<!-- View Post HTML -->
+{% extends 'base.html' %} 
+{% block head_title %}{{ post.title }}{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="section">
+	<div class="col-md-12">
+    {{ post.body }}
+	</div>
+</div>
+{% endblock %}
