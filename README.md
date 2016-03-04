@@ -19,3 +19,4 @@ just migrate and use
 # Requirements
 
 Django==1.7
+Pip==1.1
